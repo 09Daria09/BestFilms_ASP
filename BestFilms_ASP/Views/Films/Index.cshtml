@@ -1,0 +1,125 @@
+﻿@model IEnumerable<BestFilms_ASP.Models.Film>
+
+@{
+    ViewData["Title"] = "Список фильмов";
+}
+<style>
+    body {
+        background: #f5f8fa; 
+        color: #5a6268;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4a6785; 
+        padding: 20px;
+    }
+
+    .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.9); 
+        padding: 20px;
+        border-radius: 8px; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+    }
+
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+        .table thead th {
+            background-color: #6c8ebf; 
+            color: #ffffff; 
+            padding: 15px;
+            border-bottom: 2px solid #dddddd;
+            text-align: left;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: #eef2f7; 
+        }
+
+        .table tbody tr:hover {
+            background-color: #dde5ef; 
+        }
+
+        .table tbody td {
+            padding: 15px;
+            border-bottom: 1px solid #dddddd;
+        }
+
+    .btn {
+        font-size: 1em;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 8px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+        color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary, .btn-danger, .btn-add {
+        background-color: #5a7691; 
+    }
+
+        .btn-primary:hover, .btn-danger:hover, .btn-add:hover {
+            background-color: #4a6785; 
+        }
+
+    img {
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        width: 100px;
+        height: auto;
+    }
+</style>
+
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Режиссёр</th>
+                <th>Жанр</th>
+                <th>Год выпуска</th>
+                <th>Действия</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var film in Model)
+            {
+                <tr>
+                    <td><img src="@film.PosterUrl" alt="Постер"></td>
+                    <td>@film.Title</td>
+                    <td>@film.Director</td>
+                    <td>@film.Genre</td>
+                    <td>@film.ReleaseYear</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@film.Id">Просмотр</a>
+
+                        <a class="btn btn-primary" href="/Films/Edit/@film.Id">Изменить</a>
+                        <form asp-action="Delete" asp-route-id="@film.Id" method="post">
+                            <input type="submit" value="Удалить" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этот фильм?');" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-add" href="/Films/Create">Добавить фильм</a>
+</div>
